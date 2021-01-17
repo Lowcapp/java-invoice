@@ -13,7 +13,7 @@ public abstract class Product {
         if (name == null || name.equals("")) { 
         	throw new IllegalArgumentException("You cannot create products with null or empty name");
         	}
-        if (price == null || price.compareTo(new BigDecimal("0")) < 0) {
+        if (price == null || price.compareTo(new BigDecimal("0")) == -1) {
         	throw new IllegalArgumentException("You cannot create products with null or negative price");
         }
         
