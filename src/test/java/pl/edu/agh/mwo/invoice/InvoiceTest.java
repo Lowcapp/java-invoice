@@ -7,7 +7,6 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import pl.edu.agh.mwo.invoice.Invoice;
 import pl.edu.agh.mwo.invoice.product.DairyProduct;
 import pl.edu.agh.mwo.invoice.product.OtherProduct;
 import pl.edu.agh.mwo.invoice.product.Product;
@@ -103,5 +102,47 @@ public class InvoiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void testInvoiceWithNegativeQuantity() {
         invoice.addProduct(new DairyProduct("Zsiadle mleko", new BigDecimal("5.55")), -1);
+    }
+    @Test
+    public void testInvoiceHasNumber() {
+    	int number = invoice.getNumber();
+    	Assert.assertTrue(number > 0);
+    }
+    
+    @Test
+    public void testTwoInvoiceHasDifferentNumber() {
+    	int number = invoice.getNumber();
+    	int number2 = new Invoice().getNumber();
+    	Assert.assertNotEquals(number, number2);
+    }
+    @Test
+    public void testTwoSameInvoiceHasSameNumber() {
+    	Assert.assertEquals(invoice.getNumber(), invoice.getNumber());
+    }
+    
+    @Test
+    public void testInvoicePrint() {
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+    	invoice.addProduct(new DairyProduct("Chedar", new BigDecimal("10")), 3);
+    	invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 1000);
+    	invoice.printInvoice();	
+    	//Expected result: 
+    	// Faktura: (random_number)
+    	// Nazwa    Ilosc    Cena
+    	// Pinezka   1000   0.0123
+    	// Chedar   3   10.80
+    	// Chleb   2   5
+    	// Liczba pozycji: 1005
+    }
+    
+    @Test
+    public void testDuplicateProductOnInvoice() {
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("8")), 2);
+    	invoice.addProduct(new DairyProduct("Gouda", new BigDecimal("25")), 4);
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("8")), 3);
+    	invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 1000);
+    	invoice.printInvoice();
+    	//One of the printed lines should look as below:
+    	// Chleb   5   8
     }
 }
