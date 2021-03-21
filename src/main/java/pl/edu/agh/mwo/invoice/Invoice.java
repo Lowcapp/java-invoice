@@ -11,6 +11,19 @@ public class Invoice {
     private final int number = Math.abs(new Random().nextInt());
     private Map<Product, Integer> products = new HashMap<Product, Integer>();
 
+    public Map<Product, Integer> getProducts() {
+        return products;
+    }
+
+    public int findProductQuantityByName(String productName) {
+        for (Map.Entry<Product, Integer> p : products.entrySet()) {
+            if (p.getKey().getName().equals(productName)) {
+                return p.getValue();
+            }
+        }
+        return 0;
+    }
+    
     public void addProduct(Product product) {
         addProduct(product, 1);
     }
@@ -54,7 +67,7 @@ public class Invoice {
         return number;
     }
     
-    public void printInvoice() {
+    public int printInvoice() {
         System.out.println("Faktura: " + getNumber());
         System.out.println("Nazwa    Ilosc    Cena");
         int n = 0;
@@ -64,5 +77,6 @@ public class Invoice {
             n = n + p.getValue();
         }
         System.out.println("Liczba pozycji: " + n);
+        return n;
     }
 }

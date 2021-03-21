@@ -122,16 +122,17 @@ public class InvoiceTest {
     
     @Test
     public void testInvoicePrint() {
-    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("5")), 2);
+    	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("7")), 2);
     	invoice.addProduct(new DairyProduct("Chedar", new BigDecimal("10")), 3);
     	invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 1000);
-    	invoice.printInvoice();	
+    	//calculating total quantity is a part of invoice print process and is returned by it
+    	Assert.assertEquals( 1005, invoice.printInvoice());
     	//Expected result: 
     	// Faktura: (random_number)
     	// Nazwa    Ilosc    Cena
     	// Pinezka   1000   0.0123
     	// Chedar   3   10.80
-    	// Chleb   2   5
+    	// Chleb   2   7
     	// Liczba pozycji: 1005
     }
     
@@ -140,9 +141,7 @@ public class InvoiceTest {
     	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("8")), 2);
     	invoice.addProduct(new DairyProduct("Gouda", new BigDecimal("25")), 4);
     	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("8")), 3);
-    	invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 1000);
     	invoice.printInvoice();
-    	//One of the printed lines should look as below:
-    	// Chleb   5   8
+    	Assert.assertEquals(5, invoice.findProductQuantityByName("Chleb"));
     }
 }
