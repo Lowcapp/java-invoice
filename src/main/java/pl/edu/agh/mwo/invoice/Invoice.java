@@ -11,10 +11,6 @@ public class Invoice {
     private final int number = Math.abs(new Random().nextInt());
     private Map<Product, Integer> products = new HashMap<Product, Integer>();
 
-    public Map<Product, Integer> getProducts() {
-        return products;
-    }
-
     public int findProductQuantityByName(String productName) {
         for (Map.Entry<Product, Integer> p : products.entrySet()) {
             if (p.getKey().getName().equals(productName)) {

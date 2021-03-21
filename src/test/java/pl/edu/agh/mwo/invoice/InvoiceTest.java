@@ -127,13 +127,6 @@ public class InvoiceTest {
     	invoice.addProduct(new OtherProduct("Pinezka", new BigDecimal("0.01")), 1000);
     	//calculating total quantity is a part of invoice print process and is returned by it
     	Assert.assertEquals( 1005, invoice.printInvoice());
-    	//Expected result: 
-    	// Faktura: (random_number)
-    	// Nazwa    Ilosc    Cena
-    	// Pinezka   1000   0.0123
-    	// Chedar   3   10.80
-    	// Chleb   2   7
-    	// Liczba pozycji: 1005
     }
     
     @Test
@@ -143,5 +136,12 @@ public class InvoiceTest {
     	invoice.addProduct(new TaxFreeProduct("Chleb", new BigDecimal("8")), 3);
     	invoice.printInvoice();
     	Assert.assertEquals(5, invoice.findProductQuantityByName("Chleb"));
+    }
+    
+    @Test
+    public void testFindNotExistingProduct() {
+        invoice.addProduct(new DairyProduct("Maslo", new BigDecimal("5")), 10);
+        invoice.printInvoice();
+        Assert.assertEquals(0, invoice.findProductQuantityByName("Papier"));
     }
 }
